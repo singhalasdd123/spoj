@@ -1,0 +1,82 @@
+#include<stdio.h>
+#include<iostream>
+#include<algorithm>
+using namespace std;
+long long int cost[400000],sum[400000],ans,alien[400000];
+int main()
+{
+	long long int n,m,i,j,k=0,l,t=0,p=0,k1,k2,max1=0,test,ps,index=0,r=0,maximum=0,k3=0;
+	scanf("%lld",&test);
+	for(ps=0;ps<test;ps++)
+	{
+	scanf("%lld%lld",&n,&m);
+	for(i=1;i<=n;i++)
+	{
+		scanf("%lld",&cost[i]);
+		if(i==1)
+		{
+			sum[i]=cost[i];
+		}
+		else
+		{
+			sum[i]=sum[i-1]+cost[i];
+		}	
+	}
+	for(k3=0;k3<=n;k3++)
+	{
+		alien[k3]=10000000;
+	}
+	sum[0]=0;
+	maximum=0;
+	max1=0;
+	k=0;
+	r=0;
+	for(j=1;j<=n;j++)
+	{
+		if(sum[j]>m)
+		{		
+				if(r==0)
+				{
+				ans=sum[j-1];
+				index=j-1;
+				if(index>maximum)
+				{
+					maximum=index;
+				}
+				alien[index]=ans;
+				}
+				while((sum[j]-sum[k])>m)
+				{
+					k++;		
+				}
+				ans=sum[j]-sum[k];
+				index=j-k;
+				if(index>maximum)
+				{
+					maximum=index;
+				}
+				if(alien[index]!=0)
+				{
+					alien[index]=min(alien[index],ans);
+				}
+				else
+				{
+					alien[index]=ans;	
+				}
+				r++;
+		}	
+	}
+	if(sum[n]<=m)
+	{
+			printf("%lld %lld\n",sum[n],n);
+	}
+	else
+	{
+		printf("%lld %lld\n",alien[maximum],maximum);
+	}
+
+
+	
+}
+}
+
