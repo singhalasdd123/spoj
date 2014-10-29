@@ -1,0 +1,81 @@
+#include<stdio.h>
+#include<iostream>
+#include<limits.h>
+#include<algorithm>
+#define min(a,b) a>b?b:a
+using namespace std;
+int main()
+{
+	long long int i,j,k=0,l,n,sal,hire,surv,a[300],m[30][300],v,g,x;
+	cin>>n;
+	while(n!=0)
+	{
+		k++;
+		cin>>hire>>sal>>surv;
+		for(i=0;i<30;i++)
+		for(j=0;j<300;j++)
+		m[i][j]=0;
+		for(i=1;i<=n;i++)
+		cin>>a[i];
+		m[1][a[1]]=sal*a[1]+hire*a[1];
+		for(i=2;i<=n;i++)
+		{
+			x=-1;
+			for(j=0;j<300;j++)
+			{
+				if(m[i-1][j]>0&&j>=a[i])
+				{
+				x=j;
+				break;
+			    }
+			}
+			if(x==-1)
+			x=a[i];
+			for(g=a[i];g<=x;g++)
+			for(j=0;j<300;j++)
+			{
+				if(m[i-1][j]>0)
+				{
+					if(j<g)
+					{
+					if(m[i][g]==0)
+					m[i][g]=m[i-1][j]+sal*g+(g-j)*hire;
+					else
+					m[i][g]=min(m[i][g],m[i-1][j]+sal*g+(g-j)*hire);
+					}
+					else if(j>g)
+					{
+					if(m[i][g]==0)
+					m[i][g]=m[i-1][j]+sal*g+(j-g)*surv;
+					else
+				    m[i][g]=min(m[i][g],m[i-1][j]+sal*g+(j-g)*surv);
+					if(m[i][j]==0)
+					m[i][j]=m[i-1][j]+sal*j;
+					else
+					m[i][j]=min(m[i][j],m[i-1][j]+sal*j);	
+					}
+		            else 
+					{
+						if(m[i][g]==0)
+						m[i][g]=m[i-1][g]+sal*g;
+						else
+						m[i][g]=min(m[i][g],m[i-1][g]+sal*g);
+					}	
+				}
+			}
+		}
+		sort(m[n],m[n]+300);
+		v=0;
+		for(i=0;i<300;i++)
+		{
+			if(m[n][i]!=0)
+			{
+			v=m[n][i];
+			break;
+		    }
+		}
+		cout<<"Case "<<k<<", cost = $"<<v<<"\n";
+		cin>>n;
+	}
+	return 0;
+}
