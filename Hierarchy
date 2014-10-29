@@ -1,0 +1,52 @@
+#include<stdio.h>
+#include<vector>
+#include<stack>
+#include<iostream>
+#include<memory.h>
+using namespace std;
+bool visited[100010]={false};
+vector<int>adj[100010];
+int a[100010];
+stack<int>s;
+void dfs(int v)
+{
+int i;
+visited[v]=true;
+for(i=0;i<adj[v].size();i++)
+if(visited[adj[v][i]]==false)
+dfs(adj[v][i]);	
+s.push(v);
+}
+int main()
+{
+	int i,j,k,n,t1,t,w,b;
+    memset(a,0,sizeof(a));
+	for(i=0;i<100010;i++)
+	adj[i].clear();
+	scanf("%d%d",&n,&k);
+	for(i=1;i<=k;i++)
+	{
+	scanf("%d",&w);
+	while(w--)
+	{
+		scanf("%d",&b);
+		adj[i].push_back(b);
+	}	
+	}
+	for(i=1;i<=n;i++)
+	{
+	if(visited[i]!=true)
+	dfs(i);	
+	}
+	t1=s.top();
+	s.pop();
+	while(!s.empty())
+	{
+		t=s.top();
+		s.pop();
+		a[t]=t1;
+		t1=t;
+	}
+	for(i=1;i<=n;i++)
+	printf("%d\n",a[i]);
+}
