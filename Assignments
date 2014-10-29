@@ -1,0 +1,46 @@
+#include<stdio.h>
+#include<iostream>
+#include<memory.h>
+using namespace std;
+long long int n,a[30][40],c[1100000];
+long long int rec(long long int key,long long int state)
+{
+	long long int i,ans=0;
+	if(key==n)
+	return c[state]=1;
+	if(c[state]>-1)
+	{
+		return c[state];
+	}
+	else
+	{
+		for(i=0;i<n;i++)
+		{
+			if(((state&(1<<i))==0)&&a[key][i]!=0)
+			{
+				ans+=rec(key+1,state|(1<<i));
+			}
+		}
+		c[state]=ans;
+	}
+	return c[state];
+}
+int main()
+{
+	long long int i,j,k,m,t;
+	scanf("%lld",&t);
+	while(t--)
+	{
+		scanf("%lld",&n);
+		memset(c,-1,sizeof(c));
+		for(i=0;i<n;i++)
+		{
+			for(j=0;j<n;j++)
+			scanf("%lld",&a[i][j]);
+		}
+		k=rec(0,0);
+		printf("%lld\n",k);
+	}
+	return 0;
+}
+
