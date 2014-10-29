@@ -1,0 +1,51 @@
+#include<stdio.h>
+#include<memory.h>
+#define max(a,b) a>b?a:b
+int a[1010],m[1010][1010];
+int rec(int i,int n)
+{
+	int k1,k2;
+	if(i>n)
+	return 0;
+	else if(i==n)
+	return a[i];
+	else if(m[i][n]>0)
+	return m[i][n];
+	else
+	{
+		if(a[i+1]>=a[n])
+		k1=a[i]-a[i+1]+rec(i+2,n);
+		else
+		k1=a[i]-a[n]+rec(i+1,n-1);
+		if(a[i]>=a[n-1])
+		k2=a[n]-a[i]+rec(i+1,n-1);
+		else
+		k2=a[n]-a[n-1]+rec(i,n-2);
+		m[i][n]=max(k1,k2);
+	}
+	return m[i][n];
+}
+void initialise(int n)
+{
+	int i,j;
+	for(i=0;i<=n+1;i++)
+	for(j=0;j<=n+1;j++)
+	m[i][j]=-1;
+}
+int main()
+{
+	int i,j,k,l,n;
+	scanf("%d",&n);
+	l=0;
+	while(n!=0)
+	{
+		l++;
+		initialise(n);
+		for(i=0;i<n;i++)
+		scanf("%d",&a[i]);
+		k=rec(0,n-1);
+		printf("In game %d, the greedy strategy might lose by as many as %d points.\n",l,k);
+		scanf("%d",&n);
+	}
+	return 0;
+}
