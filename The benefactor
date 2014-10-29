@@ -1,0 +1,81 @@
+#include<stdio.h>
+#include<stack>
+#include<map>
+#include<vector>
+#include<algorithm>
+#include<memory.h>
+using namespace std;
+map<pair<int,int>,int>m1;
+pair<int,int>p1;
+vector<int>v[50010];
+long long int dist[50010];
+bool visit[50100];
+void dfs(int s)
+{
+int i,j;
+long long int x;
+pair<int,int>p1;
+stack<int>q;
+visit[s]=true;
+dist[s]=0;
+q.push(s);
+while(!q.empty())
+{
+ j=q.top();
+ q.pop();
+for(i=0;i<v[j].size();i++)
+{
+	if(visit[v[j][i]]==false)
+	{
+	p1.first=j;
+	p1.second=v[j][i];
+	x=m1[p1];
+	dist[v[j][i]]=x+dist[j];
+	visit[v[j][i]]=true;
+	q.push(v[j][i]);
+	}
+}		
+}
+}
+int main()
+{
+	int i,j,k,l,n,m,source,t,a,b,c,node;	
+	scanf("%d",&t);
+	while(t--)
+	{
+		scanf("%d",&n);
+		m1.clear();
+		for(i=0;i<50010;i++)
+		{
+		v[i].clear();
+		visit[i]=false;
+		dist[i]=0;
+	    }
+		for(i=1;i<n;i++)
+		{
+			scanf("%d%d%d",&a,&b,&c);
+			if(i==1)
+			source=a;
+			v[a].push_back(b);
+			v[b].push_back(a);
+			p1.first=a;
+			p1.second=b;
+			m1[p1]=c;
+			p1.first=b;
+			p1.second=a;
+			m1[p1]=c;
+		}
+		dfs(source);
+		memset(visit,0,sizeof(visit));
+		node=1;
+		for(i=1;i<=n;i++)
+		{
+			if(dist[i]>dist[node])
+			node=i;
+		}
+		dfs(node);
+		sort(dist,dist+n+1);
+		printf("%lld\n",dist[n]);
+	}
+}
+
