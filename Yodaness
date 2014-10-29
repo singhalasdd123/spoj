@@ -1,0 +1,53 @@
+#include<stdio.h>
+#include<algorithm>
+#include<string.h>
+#include<map>
+#include<iostream>
+#define maxval 30005
+using namespace std;
+long long int T[maxval];
+void update(long long int idx,long long int val)
+{
+	for(;idx<maxval;idx+=idx&(-idx))T[idx]+=val;
+}
+long long int f(long long int idx)
+{
+	long long int sum=0;
+	for(;idx>0;idx-=idx&(-idx))sum+=T[idx];
+	return sum;
+}
+int main()
+{
+	long long int i,j,k,l,t,a1[30005],a2[30005],n,x;
+	long long int ans;
+    map<string,long long int>m;
+    char s1[100],s2[100];
+    cin>>t;
+    while(t--)
+    {
+    	cin>>n;
+    	memset(T,0,sizeof(T));
+    	x=0;
+    	ans=0;
+    	m.clear();
+    	for(i=0;i<n;i++)
+    	{
+    	cin>>s1;
+    	m[s1]=x+1;
+    	a1[i]=x+1;
+    	x++;
+        }
+    	for(i=0;i<n;i++)
+    	{
+    		cin>>s1;
+    		a2[i]=m[s1];
+    	}
+    	for(i=0;i<n;i++)
+    	{
+    		ans+=i-f(a2[i]);
+    		update(a2[i],1);
+    	}
+    	cout<<ans<<"\n";
+    }
+	return 0;
+}
