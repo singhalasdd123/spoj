@@ -1,0 +1,48 @@
+#include<stdio.h>
+int main()
+{
+  	int t,i,j,x,v,k,c,m[100010],a[102],n,b[100010];;
+	scanf("%d",&t);
+	for(i=0;i<t;i++)
+	{
+		scanf("%d",&n);
+		for(j=1;j<=n;j++)
+		scanf("%d",&a[j]);
+		for(j=0;j<=100010;j++)
+		{
+		b[j]=0;
+		m[j]=0;
+	    }
+		b[0]=a[n];
+		m[a[n]]=1;
+		c=1;
+		for(j=n-1;j>=1;j--)
+		{
+			v=c;
+			for(k=0;k<v;k++)
+			{
+				x=a[j]+b[k];
+				if(m[x]!=1)
+				{
+					b[c]=x;
+					m[x]=1;
+					c++;
+				}
+			}
+			if(m[a[j]]!=1)
+			{
+            b[c]=a[j];
+			m[a[j]]=1;
+			c++;
+		    }
+		}
+		k=0;
+        for(j=0;j<c;j++)
+		{
+			k+=b[j];
+		}	
+		printf("%d\n",k);
+	}
+	return 0;
+}    
+
