@@ -1,0 +1,62 @@
+#include<stdio.h>
+#include<memory.h>
+#include<algorithm>
+using namespace std;
+int par[1010];
+struct A
+{
+	int a1,b1,c1;
+}
+E[300100];
+
+int find(int u)
+{
+if(par[u]==-1)
+return u;
+return find(par[u]);	
+}
+
+void union1(int u,int v)
+{
+ int U=find(u);
+ int V=find(v);
+ par[U]=V;	
+}
+int mycmpr(const void *a,const void *b)
+{
+	const A * E1=(const A *)a;
+	const A * E2=(const A *)b;
+	return E1->c1 < E2->c1 ? -1 : (E1->c1 > E2->c1) ? 1 :  0; 
+}
+int main()
+{
+	int i,j,k,n,m,p,s,a,b,c,t;
+	long long int x;
+	scanf("%d",&t);
+	while(t--)
+	{
+		scanf("%d%d%d",&p,&n,&m);
+		x=0;
+		memset(par,-1,sizeof(par));
+		for(i=0;i<m;i++)
+		{
+			scanf("%d%d%d",&a,&b,&c);
+			E[i].a1=a;
+			E[i].b1=b;
+		    E[i].c1=c;
+		}
+		qsort(E,m,sizeof(A),mycmpr);
+		for(i=0;i<m;i++)
+		{
+		 int U=find(E[i].a1);
+		 int V=find(E[i].b1);
+		 if(U!=V)
+		 {
+		 	x+=E[i].c1;
+		 	union1(E[i].a1,E[i].b1);
+		 }	 
+		}
+		printf("%lld\n",x*p);
+	}
+	return 0;
+}
