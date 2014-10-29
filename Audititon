@@ -1,0 +1,58 @@
+#include<memory.h>
+#include<stdio.h>
+#include<string.h>
+long long int a[1000010];
+char b[1000010];
+int main()
+{
+long long int i,j,k,l,n,t,c=0,x,m;
+scanf("%lld",&t);
+while(t--)
+{
+memset(a,0,sizeof(a));
+scanf("%lld%lld",&n,&m);
+scanf("%s",b);
+c=0;k=0;
+for(i=0;i<n;i++)
+{
+if(b[i]=='1')
+{
+c++;
+a[c]=k;
+k=0;
+}
+else
+k++;
+}
+x=0;
+if(m!=0)
+{
+for(i=1;i<=c;i++)
+{
+if(i+m<=c)
+{
+x+=((a[i]+1)*(1+a[i+m]));
+}
+else
+{
+if(c-i+1==m)
+x+=((a[i]+1)*(k+1));
+}
+}
+if(c<m)
+    printf("0\n");
+else
+printf("%lld\n",x);
+}
+else if(m==0)
+{
+    for(i=1;i<=c;i++)
+    {
+        x+=((a[i])*(a[i]+1))/2;
+    }
+    printf("%lld\n",x+((k*(k+1))/2));
+}
+}
+return 0;
+}
+
