@@ -1,0 +1,92 @@
+#include<stdio.h>
+#include<string.h>
+#include<iostream>
+#include<queue>
+#include<memory.h>
+using namespace std;
+pair<int,int>s,t;
+queue<pair<int,int> >q;
+int dist[200][200],vc[200][200];
+int dx[9]={-1,1,-1,1,-1,1,0,0},n,m,o;
+int dy[9]={1,-1,-1,1,0,0,-1,1},f;
+char a[200][200];
+void bfs()
+{
+	int x,y,x1,y1,i;
+	pair<int,int>t;
+	q.push(s);
+	vc[s.first][s.second]=0;
+	dist[s.first][s.second]=0;
+	while(!q.empty())
+	{
+     t=q.front();
+     q.pop();
+     x=t.first;
+     y=t.second;
+     if(a[x][y]=='T')
+     {
+     	if(dist[x][y]<=o)
+     	cout<<"Possible\n";
+     	else
+     	cout<<"Impossible\n";
+     	f=-1;
+     	break;
+     }
+     for(i=0;i<8;i++)
+     {
+     	x1=x+dx[i];
+     	y1=y+dy[i];
+     	if(x1>=0&&x1<n&&y1>=0&&y1<m&&vc[x1][y1]==0&&a[x1][y1]!='#')
+     	{
+     		dist[x1][y1]=dist[x][y]+1;
+     		vc[x1][y1]=1;
+     		t.first=x1;
+     		t.second=y1;
+     		q.push(t);
+     	}
+     }
+	}
+}
+int main()
+{
+	int i,j,k,t1;
+	cin>>t1;
+	char c;
+	while(t1--)
+	{
+		cin>>o>>n>>m;
+		f=0;
+		s.first=-1;
+		s.second=-1;
+		t.first=-1;
+		t.second=-1;
+		memset(dist,0,sizeof(dist));
+		memset(vc,0,sizeof(vc));
+		c=getchar();
+		for(i=0;i<n;i++)
+		gets(a[i]);
+		for(i=0;i<n;i++)
+		{
+			for(j=0;j<m;j++)
+			{
+				if(a[i][j]=='S')
+				{
+					s.first=i;
+					s.second=j;
+					//cout<<s.first<<" "<<s.second<<"\n";
+				}
+				else if(a[i][j]=='T')
+				{
+					t.first=i;
+					t.second=j;
+				}
+			}
+		}
+		if(s.first!=-1&&s.second!=-1&&t.first!=-1&&t.second!=-1)
+		bfs();
+		if(f==0||s.first==-1||s.second==-1||t.first==-1||t.second==-1)
+		cout<<"Impossible\n";
+		while(!q.empty())
+		q.pop();
+	}
+}
